@@ -1,0 +1,10 @@
+{
+  "type": "module",
+  "dependencies": {
+    "playwright-core": "^1.48.0",
+    "@sparticuz/chromium-min": "^119.0.0"
+  },
+  "scripts": {
+    "start": "node api/render.js"
+  }
+}
