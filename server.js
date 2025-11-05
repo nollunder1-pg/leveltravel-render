@@ -1,5 +1,8 @@
 import express from "express";
-import puppeteer from "puppeteer";
+import puppeteer from "puppeteer-extra";
+import StealthPlugin from "puppeteer-extra-plugin-stealth";
+
+puppeteer.use(StealthPlugin());
 
 const app = express();
 app.use(express.json({ limit: "10mb" }));
@@ -22,13 +25,18 @@ app.post("/render", async (req, res) => {
         "--disable-setuid-sandbox",
         "--disable-dev-shm-usage",
         "--disable-gpu",
-        "--no-zygote"
+        "--no-zygote",
+        "--single-process"
       ]
     });
 
     const page = await browser.newPage();
-    await page.goto(url, { waitUntil: "networkidle0", timeout: 90000 });
-    await page.waitForTimeout(3000);
+    await page.setUserAgent(
+      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36"
+    );
+
+    await page.goto(url, { waitUntil: "domcontentloaded", timeout: 180000 });
+    await page.waitForTimeout(5000);
 
     const screenshot = await page.screenshot({ fullPage: true });
     await browser.close();
