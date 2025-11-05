@@ -3,6 +3,13 @@
   "builds": [
     { "src": "api/render.js", "use": "@vercel/node" }
   ],
+  "functions": {
+    "api/render.js": {
+      "runtime": "nodejs20.x",
+      "maxDuration": 60,
+      "memory": 1024
+    }
+  },
   "routes": [
     { "src": "/(.*)", "dest": "/api/render.js" }
   ]
