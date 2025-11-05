@@ -1,4 +1,5 @@
-import puppeteer from "puppeteer";
+import chromium from "@sparticuz/chromium";
+import puppeteer from "puppeteer-core";
 
 export default async function handler(req, res) {
   try {
@@ -8,19 +9,22 @@ export default async function handler(req, res) {
 
     const body = typeof req.body === "string" ? JSON.parse(req.body) : req.body;
     const url = body?.url;
-    if (!url) {
-      return res.status(400).json({ ok: false, error: "url required" });
-    }
+    if (!url) return res.status(400).json({ ok: false, error: "url required" });
+
+    const executablePath = await chromium.executablePath();
 
     const browser = await puppeteer.launch({
-      headless: true,
       args: [
+        ...chromium.args,
         "--no-sandbox",
         "--disable-setuid-sandbox",
         "--disable-dev-shm-usage",
-        "--disable-gpu",
-        "--no-zygote"
-      ]
+        "--disable-gpu"
+      ],
+      defaultViewport: chromium.defaultViewport,
+      executablePath,
+      headless: chromium.headless,
+      ignoreHTTPSErrors: true
     });
 
     const page = await browser.newPage();
