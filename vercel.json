@@ -1,8 +1,5 @@
 {
   "version": 2,
-  "builds": [
-    { "src": "api/render.js", "use": "@vercel/node" }
-  ],
   "functions": {
     "api/render.js": {
       "runtime": "nodejs20.x",
@@ -10,6 +7,9 @@
       "memory": 1024
     }
   },
+  "builds": [
+    { "src": "api/render.js", "use": "@vercel/node" }
+  ],
   "routes": [
     { "src": "/(.*)", "dest": "/api/render.js" }
   ]
