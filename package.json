@@ -1,7 +1,9 @@
 {
   "type": "module",
+  "scripts": {
+    "preinstall": "npx puppeteer browsers install chrome"
+  },
   "dependencies": {
-    "@sparticuz/chromium": "^123.0.0",
-    "puppeteer-core": "^22.10.0"
+    "puppeteer": "^22.10.0"
   }
 }
