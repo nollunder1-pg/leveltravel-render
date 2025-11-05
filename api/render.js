@@ -2,9 +2,15 @@ import puppeteer from "puppeteer";
 
 export default async function handler(req, res) {
   try {
+    if (req.method !== "POST") {
+      return res.status(405).json({ ok: false, error: "Use POST" });
+    }
+
     const body = typeof req.body === "string" ? JSON.parse(req.body) : req.body;
     const url = body?.url;
-    if (!url) return res.status(400).json({ ok: false, error: "url required" });
+    if (!url) {
+      return res.status(400).json({ ok: false, error: "url required" });
+    }
 
     const browser = await puppeteer.launch({
       headless: true,
