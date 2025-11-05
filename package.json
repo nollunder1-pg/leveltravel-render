@@ -9,7 +9,6 @@
     "build": "npx puppeteer browsers install chrome"
   },
   "dependencies": {
-    "@puppeteer/browsers": "^2.3.0",
     "express": "^4.19.0",
     "puppeteer": "^23.4.0"
   }
